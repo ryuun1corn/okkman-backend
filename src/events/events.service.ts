@@ -8,8 +8,10 @@ import { PrismaService } from 'src/prisma.service';
 export class EventsService {
   constructor(private prisma: PrismaService) {}
 
-  create(createEventDto: CreateEventDto) {
-    return 'This action adds a new event';
+  async create(createEventDto: CreateEventDto): Promise<Event> {
+    return this.prisma.event.create({
+      data: createEventDto,
+    });
   }
 
   async findAll(): Promise<Event[]> {
