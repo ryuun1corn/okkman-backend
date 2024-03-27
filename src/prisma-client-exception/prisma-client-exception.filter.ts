@@ -13,27 +13,31 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
     // Get the last line of the message (the error message)
     const message = exception.message.split('\n').slice(-1)[0];
 
-    switch (exception.code) {
-      case 'P2003': {
-        const status = HttpStatus.CONFLICT;
-        response.status(status).json({
-          meesage: message,
-          statusCode: status,
-        });
-        break;
-      }
-      case 'P2025': {
-        const status = HttpStatus.NOT_FOUND;
-        response.status(status).json({
-          meesage: message,
-          statusCode: status,
-        });
-        break;
-      }
-      default: {
-        break;
-      }
-    }
+    // switch (exception.code) {
+    //   case 'P2003': {
+    //     const status = HttpStatus.CONFLICT;
+    //     response.status(status).json({
+    //       meesage: message,
+    //       statusCode: status,
+    //     });
+    //     break;
+    //   }
+    //   case 'P2025': {
+    //     const status = HttpStatus.NOT_FOUND;
+    //     response.status(status).json({
+    //       meesage: message,
+    //       statusCode: status,
+    //     });
+    //     break;
+    //   }
+    //   default: {
+    //     break;
+    //   }
+    // }
+
+    response.json({
+      message: message,
+    });
 
     super.catch(exception, host);
   }
