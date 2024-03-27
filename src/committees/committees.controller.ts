@@ -16,12 +16,12 @@ export class CommitteesController {
   constructor(private readonly committeesService: CommitteesService) {}
 
   @Post()
-  create(@Body() createCommitteeDto: CreateCommitteeDto) {
+  async create(@Body() createCommitteeDto: CreateCommitteeDto) {
     return this.committeesService.create(createCommitteeDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.committeesService.findAll();
   }
 
