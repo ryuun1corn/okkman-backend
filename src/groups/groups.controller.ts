@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
@@ -26,8 +27,8 @@ export class GroupsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.groupsService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.groupsService.findOne(id);
   }
 
   @Patch(':id')

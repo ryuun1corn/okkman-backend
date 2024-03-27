@@ -9,7 +9,15 @@ export class GroupsService {
 
   async create(createGroupDto: CreateGroupDto) {
     return this.prisma.group.create({
-      data: createGroupDto,
+      data: {
+        number: createGroupDto.number,
+        mentor: {
+          connect: {
+            id: createGroupDto.mentor_id,
+            bph_type: 'MENTOR',
+          },
+        },
+      },
     });
   }
 
@@ -18,7 +26,15 @@ export class GroupsService {
   }
 
   async findOne(id: number) {
-    return `This action returns a #${id} group`;
+    return this.prisma.group.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        mentees: true,
+        mentor: true,
+      },
+    });
   }
 
   async update(id: number, updateGroupDto: UpdateGroupDto) {
