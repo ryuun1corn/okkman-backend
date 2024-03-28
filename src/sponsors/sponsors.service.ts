@@ -8,6 +8,7 @@ export class SponsorsService {
   constructor(private prisma: PrismaService) {}
 
   async create(createSponsorDto: CreateSponsorDto) {
+    createSponsorDto.event_ids = createSponsorDto.event_ids || [];
     return await this.prisma.sponsor.create({
       data: {
         name: createSponsorDto.name,

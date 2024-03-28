@@ -8,6 +8,8 @@ export class EventsService {
   constructor(private prisma: PrismaService) {}
 
   async create(createEventDto: CreateEventDto) {
+    createEventDto.sponsor_ids = createEventDto.sponsor_ids || [];
+    createEventDto.speaker_ids = createEventDto.speaker_ids || [];
     // To remove the unwanted fields
     const eventData = {
       ...createEventDto,
