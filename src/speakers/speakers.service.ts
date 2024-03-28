@@ -7,8 +7,18 @@ import { PrismaService } from 'src/prisma.service';
 export class SpeakersService {
   constructor(private prisma: PrismaService) {}
 
-  create(createSpeakerDto: CreateSpeakerDto) {
-    return 'This action adds a new speaker';
+  async create(createSpeakerDto: CreateSpeakerDto) {
+    createSpeakerDto.event_ids = createSpeakerDto.event_ids || [];
+    await this.prisma.speaker.create({
+      data: {
+        name: createSpeakerDto.name,
+        events: {
+          connect: createSpeakerDto.event_ids.map((event_id) => ({
+            id: event_id,
+          })),
+        },
+      },
+    });
   }
 
   async findAll() {
