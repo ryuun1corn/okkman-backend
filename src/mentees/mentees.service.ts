@@ -44,4 +44,18 @@ export class MenteesService {
       },
     });
   }
+
+  async changeGroup(menteeId: number, groupNumber: number) {
+    return await this.prisma.mentee.update({
+      where: {
+        id: menteeId,
+      },
+      data: {
+        group_number: groupNumber,
+      },
+      include: {
+        group: true,
+      },
+    });
+  }
 }

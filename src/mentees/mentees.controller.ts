@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Put,
 } from '@nestjs/common';
 import { MenteesService } from './mentees.service';
 import { CreateMenteeDto } from './dto/create-mentee.dto';
@@ -37,6 +38,14 @@ export class MenteesController {
     @Body() updateMenteeDto: UpdateMenteeDto,
   ) {
     return this.menteesService.update(id, updateMenteeDto);
+  }
+
+  @Put(':menteeId/groups/:groupNumber')
+  async changeGroup(
+    @Param('menteeId', ParseIntPipe) menteeId: number,
+    @Param('groupNumber', ParseIntPipe) groupNumber: number,
+  ) {
+    return this.menteesService.changeGroup(menteeId, groupNumber);
   }
 
   @Delete(':id')
