@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { SpeakersService } from './speakers.service';
 import { CreateSpeakerDto } from './dto/create-speaker.dto';
@@ -16,7 +17,7 @@ export class SpeakersController {
   constructor(private readonly speakersService: SpeakersService) {}
 
   @Post()
-  create(@Body() createSpeakerDto: CreateSpeakerDto) {
+  async create(@Body() createSpeakerDto: CreateSpeakerDto) {
     return this.speakersService.create(createSpeakerDto);
   }
 
@@ -26,17 +27,20 @@ export class SpeakersController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.speakersService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.speakersService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSpeakerDto: UpdateSpeakerDto) {
-    return this.speakersService.update(+id, updateSpeakerDto);
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateSpeakerDto: UpdateSpeakerDto,
+  ) {
+    return this.speakersService.update(id, updateSpeakerDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.speakersService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return this.speakersService.remove(id);
   }
 }

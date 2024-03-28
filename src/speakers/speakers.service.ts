@@ -33,11 +33,20 @@ export class SpeakersService {
     });
   }
 
-  update(id: number, updateSpeakerDto: UpdateSpeakerDto) {
-    return `This action updates a #${id} speaker`;
+  async update(id: number, updateSpeakerDto: UpdateSpeakerDto) {
+    return await this.prisma.speaker.update({
+      where: {
+        id: id,
+      },
+      data: updateSpeakerDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} speaker`;
+  async remove(id: number) {
+    await this.prisma.speaker.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 }
