@@ -13,7 +13,6 @@ export class CommitteesService {
   constructor(private prisma: PrismaService) {}
 
   async create(createCommitteeDto: CreateCommitteeDto) {
-    console.log(`The type was ${createCommitteeDto.committee_subtype}`);
     const committeeTyping: {
       committee_type: COMMITTEE_TYPE;
       pengurus_inti_type: PENGURUS_INTI_TYPE | null;
@@ -23,6 +22,7 @@ export class CommitteesService {
       pengurus_inti_type: null,
       bph_type: 'PROJECT',
     };
+
     if (
       Object.values(BADAN_PENGURUS_HARIAN_TYPE).includes(
         createCommitteeDto.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE,
@@ -54,8 +54,24 @@ export class CommitteesService {
     return await this.prisma.committee.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} committee`;
+  async findOne(id: number) {
+    return await this.prisma.committee.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        group: true,
+      },
+    });
+  }
+
+  async findAllMentors() {
+    console.log('getting mentors');
+    return await this.prisma.committee.findMany({
+      where: {
+        bph_type: 'MENTOR',
+      },
+    });
   }
 
   update(id: number, updateCommitteeDto: UpdateCommitteeDto) {

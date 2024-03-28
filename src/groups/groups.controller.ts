@@ -40,7 +40,7 @@ export class GroupsController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return this.groupsService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return this.groupsService.remove(id);
   }
 }

@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CommitteesService } from './committees.service';
 import { CreateCommitteeDto } from './dto/create-committee.dto';
@@ -25,9 +26,14 @@ export class CommitteesController {
     return this.committeesService.findAll();
   }
 
+  @Get('mentors')
+  async findAllMentors() {
+    return this.committeesService.findAllMentors();
+  }
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.committeesService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.committeesService.findOne(id);
   }
 
   @Patch(':id')
