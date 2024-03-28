@@ -16,7 +16,7 @@ export class SponsorsController {
   constructor(private readonly sponsorsService: SponsorsService) {}
 
   @Post()
-  create(@Body() createSponsorDto: CreateSponsorDto) {
+  async create(@Body() createSponsorDto: CreateSponsorDto) {
     return this.sponsorsService.create(createSponsorDto);
   }
 

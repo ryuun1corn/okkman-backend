@@ -7,8 +7,18 @@ import { PrismaService } from 'src/prisma.service';
 export class SponsorsService {
   constructor(private prisma: PrismaService) {}
 
-  create(createSponsorDto: CreateSponsorDto) {
-    return 'This action adds a new sponsor';
+  async create(createSponsorDto: CreateSponsorDto) {
+    return await this.prisma.sponsor.create({
+      data: {
+        name: createSponsorDto.name,
+        package: createSponsorDto.package,
+        events: {
+          connect: createSponsorDto.event_ids.map((event_id) => ({
+            id: event_id,
+          })),
+        },
+      },
+    });
   }
 
   async findAll() {
