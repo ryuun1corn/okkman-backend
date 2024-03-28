@@ -21,12 +21,12 @@ export class SpeakersController {
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.speakersService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.speakersService.findOne(+id);
   }
 

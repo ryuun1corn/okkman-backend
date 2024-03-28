@@ -1,19 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSpeakerDto } from './dto/create-speaker.dto';
 import { UpdateSpeakerDto } from './dto/update-speaker.dto';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class SpeakersService {
+  constructor(private prisma: PrismaService) {}
+
   create(createSpeakerDto: CreateSpeakerDto) {
     return 'This action adds a new speaker';
   }
 
-  findAll() {
-    return `This action returns all speakers`;
+  async findAll() {
+    return await this.prisma.speaker.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} speaker`;
+  async findOne(id: number) {
+    return await this.prisma.speaker.findUnique({
+      where: {
+        id: id,
+      },
+    });
   }
 
   update(id: number, updateSpeakerDto: UpdateSpeakerDto) {
