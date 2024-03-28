@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { SponsorsService } from './sponsors.service';
 import { CreateSponsorDto } from './dto/create-sponsor.dto';
@@ -26,17 +27,20 @@ export class SponsorsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.sponsorsService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.sponsorsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSponsorDto: UpdateSponsorDto) {
-    return this.sponsorsService.update(+id, updateSponsorDto);
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateSponsorDto: UpdateSponsorDto,
+  ) {
+    return this.sponsorsService.update(id, updateSponsorDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.sponsorsService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return this.sponsorsService.remove(id);
   }
 }

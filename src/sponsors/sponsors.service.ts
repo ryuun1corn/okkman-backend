@@ -33,11 +33,20 @@ export class SponsorsService {
     });
   }
 
-  update(id: number, updateSponsorDto: UpdateSponsorDto) {
-    return `This action updates a #${id} sponsor`;
+  async update(id: number, updateSponsorDto: UpdateSponsorDto) {
+    return await this.prisma.sponsor.update({
+      where: {
+        id: id,
+      },
+      data: updateSponsorDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} sponsor`;
+  async remove(id: number) {
+    await this.prisma.sponsor.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 }
