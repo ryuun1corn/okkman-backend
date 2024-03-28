@@ -41,7 +41,7 @@ export class GroupsController {
   }
 
   @Put(':groupId/mentors/:mentorId')
-  async changeGroup(
+  async changeMentor(
     @Param('groupId', ParseIntPipe) groupId: number,
     @Param('mentorId', ParseIntPipe) mentorId: number,
   ) {

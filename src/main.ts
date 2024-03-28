@@ -6,7 +6,11 @@ import { PrismaClientExceptionFilter } from './prisma-client-exception/prisma-cl
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: {
-      origin: ['http://localhost:3001', 'https://okk-meets-postman.vercel.app'],
+      origin: [
+        'http://localhost:3001',
+        'https://okk-meets-postman.vercel.app/',
+        'https://okk-meets-postman.vercel.app',
+      ],
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       preflightContinue: false,
       optionsSuccessStatus: 204,
