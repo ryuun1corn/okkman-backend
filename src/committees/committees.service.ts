@@ -71,6 +71,9 @@ export class CommitteesService {
       where: {
         bph_type: 'MENTOR',
       },
+      include: {
+        group: true,
+      },
     });
   }
 
@@ -112,7 +115,11 @@ export class CommitteesService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} committee`;
+  async remove(id: number) {
+    await this.prisma.committee.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 }

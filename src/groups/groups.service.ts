@@ -42,7 +42,7 @@ export class GroupsService {
   }
 
   async remove(id: number) {
-    return await this.prisma.group.delete({
+    await this.prisma.group.delete({
       where: {
         id: id,
       },
