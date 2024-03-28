@@ -1,15 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMenteeDto } from './dto/create-mentee.dto';
 import { UpdateMenteeDto } from './dto/update-mentee.dto';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class MenteesService {
-  create(createMenteeDto: CreateMenteeDto) {
-    return 'This action adds a new mentee';
+  constructor(private prisma: PrismaService) {}
+
+  async create(createMenteeDto: CreateMenteeDto) {
+    return await this.prisma.mentee.create({
+      data: createMenteeDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all mentees`;
+  async findAll() {
+    return await this.prisma.mentee.findMany();
   }
 
   findOne(id: number) {

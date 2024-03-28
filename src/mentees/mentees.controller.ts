@@ -16,12 +16,12 @@ export class MenteesController {
   constructor(private readonly menteesService: MenteesService) {}
 
   @Post()
-  create(@Body() createMenteeDto: CreateMenteeDto) {
+  async create(@Body() createMenteeDto: CreateMenteeDto) {
     return this.menteesService.create(createMenteeDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.menteesService.findAll();
   }
 
