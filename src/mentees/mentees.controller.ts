@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { MenteesService } from './mentees.service';
 import { CreateMenteeDto } from './dto/create-mentee.dto';
@@ -26,8 +27,8 @@ export class MenteesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.menteesService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.menteesService.findOne(id);
   }
 
   @Patch(':id')
@@ -36,7 +37,7 @@ export class MenteesController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.menteesService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return this.menteesService.remove(id);
   }
 }

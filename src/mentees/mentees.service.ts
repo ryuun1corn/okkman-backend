@@ -17,15 +17,26 @@ export class MenteesService {
     return await this.prisma.mentee.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} mentee`;
+  async findOne(id: number) {
+    return await this.prisma.mentee.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        group: true,
+      },
+    });
   }
 
   update(id: number, updateMenteeDto: UpdateMenteeDto) {
     return `This action updates a #${id} mentee`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} mentee`;
+  async remove(id: number) {
+    await this.prisma.mentee.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 }
