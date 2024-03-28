@@ -8,8 +8,30 @@ export class EventsService {
   constructor(private prisma: PrismaService) {}
 
   async create(createEventDto: CreateEventDto) {
+    // To remove the unwanted fields
+    const eventData = {
+      ...createEventDto,
+      speaker_ids: undefined,
+      sponsor_ids: undefined,
+    };
     return await this.prisma.event.create({
-      data: createEventDto,
+      data: {
+        ...eventData,
+        sponsors: {
+          connect: createEventDto.sponsor_ids.map((id) => ({
+            id: id,
+          })),
+        },
+        speakers: {
+          connect: createEventDto.speaker_ids.map((id) => ({
+            id: id,
+          })),
+        },
+      },
+      include: {
+        speakers: createEventDto.speaker_ids.length !== 0 ?? false,
+        sponsors: createEventDto.sponsor_ids.length !== 0 ?? false,
+      },
     });
   }
 

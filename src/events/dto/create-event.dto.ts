@@ -1,7 +1,9 @@
 import {
   IsDateString,
+  IsInt,
   IsNotEmpty,
   IsOptional,
+  IsPositive,
   IsString,
   MaxLength,
 } from 'class-validator';
@@ -28,4 +30,22 @@ export class CreateEventDto {
   @IsNotEmpty()
   @MaxLength(1000)
   description?: string;
+
+  @IsOptional()
+  @IsInt({
+    each: true,
+  })
+  @IsPositive({
+    each: true,
+  })
+  sponsor_ids: number[];
+
+  @IsOptional()
+  @IsInt({
+    each: true,
+  })
+  @IsPositive({
+    each: true,
+  })
+  speaker_ids: number[];
 }
