@@ -8,30 +8,30 @@ export class EventsService {
   constructor(private prisma: PrismaService) {}
 
   async create(createEventDto: CreateEventDto) {
-    return this.prisma.event.create({
+    return await this.prisma.event.create({
       data: createEventDto,
     });
   }
 
   async findAll() {
-    return this.prisma.event.findMany();
+    return await this.prisma.event.findMany();
   }
 
   async findOne(id: number) {
-    return this.prisma.event.findUnique({
+    return await this.prisma.event.findUnique({
       where: { id },
     });
   }
 
   async update(id: number, updateEventDto: UpdateEventDto) {
-    return this.prisma.event.update({
+    return await this.prisma.event.update({
       where: { id },
       data: updateEventDto,
     });
   }
 
   async remove(id: number) {
-    return this.prisma.event.delete({
+    return await this.prisma.event.delete({
       where: { id },
     });
   }

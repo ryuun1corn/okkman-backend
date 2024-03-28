@@ -8,7 +8,7 @@ export class GroupsService {
   constructor(private prisma: PrismaService) {}
 
   async create(createGroupDto: CreateGroupDto) {
-    return this.prisma.group.create({
+    return await this.prisma.group.create({
       data: {
         number: createGroupDto.number,
         mentor: {
@@ -22,11 +22,11 @@ export class GroupsService {
   }
 
   async findAll() {
-    return this.prisma.group.findMany();
+    return await this.prisma.group.findMany();
   }
 
   async findOne(id: number) {
-    return this.prisma.group.findUnique({
+    return await this.prisma.group.findUnique({
       where: {
         id: id,
       },
