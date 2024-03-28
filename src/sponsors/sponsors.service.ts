@@ -30,6 +30,9 @@ export class SponsorsService {
       where: {
         id: id,
       },
+      include: {
+        events: true,
+      },
     });
   }
 
@@ -46,6 +49,42 @@ export class SponsorsService {
     await this.prisma.sponsor.delete({
       where: {
         id: id,
+      },
+    });
+  }
+
+  async connectEvent(eventId: number, sponsorId: number) {
+    return await this.prisma.sponsor.update({
+      where: {
+        id: sponsorId,
+      },
+      data: {
+        events: {
+          connect: {
+            id: eventId,
+          },
+        },
+      },
+      include: {
+        events: true,
+      },
+    });
+  }
+
+  async removeEvent(eventId: number, sponsorId: number) {
+    return await this.prisma.sponsor.update({
+      where: {
+        id: sponsorId,
+      },
+      data: {
+        events: {
+          disconnect: {
+            id: eventId,
+          },
+        },
+      },
+      include: {
+        events: true,
       },
     });
   }

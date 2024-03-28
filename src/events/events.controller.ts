@@ -7,14 +7,21 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Put,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
+import { SponsorsService } from 'src/sponsors/sponsors.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
+import { SpeakersService } from 'src/speakers/speakers.service';
 
 @Controller('events')
 export class EventsController {
-  constructor(private readonly eventsService: EventsService) {}
+  constructor(
+    private readonly eventsService: EventsService,
+    private readonly sponsorsService: SponsorsService,
+    private readonly speakersService: SpeakersService,
+  ) {}
 
   @Post() // Done
   async create(@Body() createEventDto: CreateEventDto) {
@@ -39,8 +46,24 @@ export class EventsController {
     return this.eventsService.update(id, updateEventDto);
   }
 
+  @Put(':eventId/sponsors/:sponsorId')
+  async connectSponsor(
+    @Param('eventId', ParseIntPipe) eventId: number,
+    @Param('sponsorId', ParseIntPipe) sponsorId: number,
+  ) {
+    return this.sponsorsService.connectEvent(eventId, sponsorId);
+  }
+
   @Delete(':id') // Done
   async remove(@Param('id', ParseIntPipe) id: number) {
     return this.eventsService.remove(id);
+  }
+
+  @Delete(':eventId/sponsors/:sponsorId')
+  async removeSponsor(
+    @Param('eventId', ParseIntPipe) eventId: number,
+    @Param('sponsorId', ParseIntPipe) sponsorId: number,
+  ) {
+    return this.sponsorsService.removeEvent(eventId, sponsorId);
   }
 }
