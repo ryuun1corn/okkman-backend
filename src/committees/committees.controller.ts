@@ -37,11 +37,11 @@ export class CommitteesController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
+  async update(
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateCommitteeDto: UpdateCommitteeDto,
   ) {
-    return this.committeesService.update(+id, updateCommitteeDto);
+    return this.committeesService.update(id, updateCommitteeDto);
   }
 
   @Delete(':id')

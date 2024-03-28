@@ -74,8 +74,42 @@ export class CommitteesService {
     });
   }
 
-  update(id: number, updateCommitteeDto: UpdateCommitteeDto) {
-    return `This action updates a #${id} committee`;
+  async update(id: number, updateCommitteeDto: UpdateCommitteeDto) {
+    const committeeTyping: {
+      committee_type: COMMITTEE_TYPE;
+      pengurus_inti_type: PENGURUS_INTI_TYPE | null;
+      bph_type: BADAN_PENGURUS_HARIAN_TYPE | null;
+    } = {
+      committee_type: 'BADAN_PENGURUS_HARIAN',
+      pengurus_inti_type: null,
+      bph_type: 'PROJECT',
+    };
+    if (updateCommitteeDto.committee_subtype) {
+      if (
+        Object.values(BADAN_PENGURUS_HARIAN_TYPE).includes(
+          updateCommitteeDto.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE,
+        )
+      ) {
+        committeeTyping.bph_type =
+          updateCommitteeDto.committee_subtype as BADAN_PENGURUS_HARIAN_TYPE;
+      } else {
+        (committeeTyping.committee_type = 'PENGURUS_INTI'),
+          (committeeTyping.pengurus_inti_type =
+            updateCommitteeDto.committee_subtype as PENGURUS_INTI_TYPE);
+        committeeTyping.bph_type = null;
+      }
+    }
+
+    return await this.prisma.committee.update({
+      where: {
+        id: id,
+        group:
+          updateCommitteeDto.committee_subtype === 'MENTOR' ? undefined : null,
+      },
+      data:
+        updateCommitteeDto &&
+        (updateCommitteeDto.committee_subtype ? committeeTyping : {}),
+    });
   }
 
   remove(id: number) {
