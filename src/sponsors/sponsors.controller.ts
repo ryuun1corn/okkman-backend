@@ -21,12 +21,12 @@ export class SponsorsController {
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.sponsorsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.sponsorsService.findOne(+id);
   }
 

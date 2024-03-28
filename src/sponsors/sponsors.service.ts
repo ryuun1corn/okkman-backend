@@ -1,19 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSponsorDto } from './dto/create-sponsor.dto';
 import { UpdateSponsorDto } from './dto/update-sponsor.dto';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class SponsorsService {
+  constructor(private prisma: PrismaService) {}
+
   create(createSponsorDto: CreateSponsorDto) {
     return 'This action adds a new sponsor';
   }
 
-  findAll() {
-    return `This action returns all sponsors`;
+  async findAll() {
+    return await this.prisma.sponsor.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} sponsor`;
+  async findOne(id: number) {
+    return await this.prisma.sponsor.findUnique({
+      where: {
+        id: id,
+      },
+    });
   }
 
   update(id: number, updateSponsorDto: UpdateSponsorDto) {
