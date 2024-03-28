@@ -53,4 +53,23 @@ export class GroupsService {
       },
     });
   }
+
+  async changeMentor(groupId: number, mentorId: number) {
+    return await this.prisma.group.update({
+      where: {
+        id: groupId,
+      },
+      data: {
+        mentor: {
+          connect: {
+            id: mentorId,
+            bph_type: 'MENTOR',
+          },
+        },
+      },
+      include: {
+        mentor: true,
+      },
+    });
+  }
 }

@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Put,
 } from '@nestjs/common';
 import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
@@ -37,6 +38,14 @@ export class GroupsController {
     @Body() updateGroupDto: UpdateGroupDto,
   ) {
     return this.groupsService.update(id, updateGroupDto);
+  }
+
+  @Put(':groupId/mentors/:mentorId')
+  async changeGroup(
+    @Param('groupId', ParseIntPipe) groupId: number,
+    @Param('mentorId', ParseIntPipe) mentorId: number,
+  ) {
+    return this.groupsService.changeMentor(groupId, mentorId);
   }
 
   @Delete(':id')
