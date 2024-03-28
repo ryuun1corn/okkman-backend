@@ -1,4 +1,4 @@
-import { ArgumentsHost, Catch, HttpStatus } from '@nestjs/common';
+import { ArgumentsHost, Catch } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { Response } from 'express';
@@ -12,6 +12,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
     const response = ctx.getResponse<Response>();
     // Get the last line of the message (the error message)
     const message = exception.message.split('\n').slice(-1)[0];
+    const exceptionCode = exception.code;
 
     // switch (exception.code) {
     //   case 'P2003': {
@@ -35,8 +36,9 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
     //   }
     // }
 
-    response.json({
+    response.status(500).json({
       message: message,
+      prismaExceptionCode: exceptionCode,
     });
 
     super.catch(exception, host);
