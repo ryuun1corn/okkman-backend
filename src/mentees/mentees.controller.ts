@@ -32,8 +32,11 @@ export class MenteesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMenteeDto: UpdateMenteeDto) {
-    return this.menteesService.update(+id, updateMenteeDto);
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateMenteeDto: UpdateMenteeDto,
+  ) {
+    return this.menteesService.update(id, updateMenteeDto);
   }
 
   @Delete(':id')

@@ -28,8 +28,13 @@ export class MenteesService {
     });
   }
 
-  update(id: number, updateMenteeDto: UpdateMenteeDto) {
-    return `This action updates a #${id} mentee`;
+  async update(id: number, updateMenteeDto: UpdateMenteeDto) {
+    return await this.prisma.mentee.update({
+      where: {
+        id: id,
+      },
+      data: updateMenteeDto,
+    });
   }
 
   async remove(id: number) {
