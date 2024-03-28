@@ -1,6 +1,6 @@
-import { PickType } from '@nestjs/mapped-types';
+import { PartialType, PickType } from '@nestjs/mapped-types';
 import { CreateSpeakerDto } from './create-speaker.dto';
 
-export class UpdateSpeakerDto extends PickType(CreateSpeakerDto, [
-  'name',
-] as const) {}
+export class UpdateSpeakerDto extends PartialType(
+  PickType(CreateSpeakerDto, ['name'] as const),
+) {}
