@@ -18,6 +18,9 @@ export class SponsorsService {
           })),
         },
       },
+      include: {
+        events: createSponsorDto.event_ids.length !== 0 ?? false,
+      },
     });
   }
 

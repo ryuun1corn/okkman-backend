@@ -54,6 +54,14 @@ export class EventsController {
     return this.sponsorsService.connectEvent(eventId, sponsorId);
   }
 
+  @Put(':eventId/speakers/:speakerId')
+  async connectSpeaker(
+    @Param('eventId', ParseIntPipe) eventId: number,
+    @Param('speakerId', ParseIntPipe) speakerId: number,
+  ) {
+    return this.speakersService.connectEvent(eventId, speakerId);
+  }
+
   @Delete(':id') // Done
   async remove(@Param('id', ParseIntPipe) id: number) {
     return this.eventsService.remove(id);
@@ -65,5 +73,13 @@ export class EventsController {
     @Param('sponsorId', ParseIntPipe) sponsorId: number,
   ) {
     return this.sponsorsService.removeEvent(eventId, sponsorId);
+  }
+
+  @Delete(':eventId/speakers/:speakerId')
+  async removeSpeaker(
+    @Param('eventId', ParseIntPipe) eventId: number,
+    @Param('speakerId', ParseIntPipe) speakerId: number,
+  ) {
+    return this.speakersService.removeEvent(eventId, speakerId);
   }
 }

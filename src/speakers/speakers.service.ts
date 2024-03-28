@@ -9,7 +9,7 @@ export class SpeakersService {
 
   async create(createSpeakerDto: CreateSpeakerDto) {
     createSpeakerDto.event_ids = createSpeakerDto.event_ids || [];
-    await this.prisma.speaker.create({
+    return await this.prisma.speaker.create({
       data: {
         name: createSpeakerDto.name,
         events: {
@@ -17,6 +17,9 @@ export class SpeakersService {
             id: event_id,
           })),
         },
+      },
+      include: {
+        events: createSpeakerDto.event_ids.length !== 0 ?? false,
       },
     });
   }
@@ -29,6 +32,9 @@ export class SpeakersService {
     return await this.prisma.speaker.findUnique({
       where: {
         id: id,
+      },
+      include: {
+        events: true,
       },
     });
   }
@@ -46,6 +52,42 @@ export class SpeakersService {
     await this.prisma.speaker.delete({
       where: {
         id: id,
+      },
+    });
+  }
+
+  async connectEvent(eventId: number, speakerId: number) {
+    return await this.prisma.speaker.update({
+      where: {
+        id: speakerId,
+      },
+      data: {
+        events: {
+          connect: {
+            id: eventId,
+          },
+        },
+      },
+      include: {
+        events: true,
+      },
+    });
+  }
+
+  async removeEvent(eventId: number, speakerId: number) {
+    return await this.prisma.speaker.update({
+      where: {
+        id: speakerId,
+      },
+      data: {
+        events: {
+          disconnect: {
+            id: eventId,
+          },
+        },
+      },
+      include: {
+        events: true,
       },
     });
   }
