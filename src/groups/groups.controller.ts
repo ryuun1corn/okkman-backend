@@ -33,10 +33,10 @@ export class GroupsController {
 
   @Patch(':id')
   async update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateGroupDto: UpdateGroupDto,
   ) {
-    return this.groupsService.update(+id, updateGroupDto);
+    return this.groupsService.update(id, updateGroupDto);
   }
 
   @Delete(':id')
