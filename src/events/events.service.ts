@@ -20,6 +20,10 @@ export class EventsService {
   async findOne(id: number) {
     return await this.prisma.event.findUnique({
       where: { id },
+      include: {
+        speakers: true,
+        sponsors: true,
+      },
     });
   }
 
